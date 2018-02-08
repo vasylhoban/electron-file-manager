@@ -59,9 +59,9 @@ ipcMain.on('DATA_PASTE_REQUEST', (event, {path, dest, pasteType})=> {
 	const pathWithoutRoot = path.substr(root.length);
 	const destWithoutRoot = dest.substr(root.length);
 	console.log(pathWithoutRoot, destWithoutRoot, pasteType);
-	// fs.copy(pathWithoutRoot, destWithoutRoot, (err)=> {
-	// 	if (err) return console.error(err);
-	// 	console.log('success!');
-	// 	mainWindow.webContents.send('PASTE_REQUEST_DONE');
-	// });
+	fs.copy(pathWithoutRoot, destWithoutRoot, (err)=> {
+		if (err) return console.error(err);
+		console.log('success!');
+		mainWindow.webContents.send('PASTE_REQUEST_DONE');
+	});
 });
