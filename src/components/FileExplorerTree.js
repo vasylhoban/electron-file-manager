@@ -45,8 +45,8 @@ class FileExplorerTree extends Component {
 		!folder.isFile && this.props.updateCurrentPath(`${this.props.currentPath}${folder.title}/`);
 	}
 
-	contextMenu(folderTitle) {
-		this.clickedPath = `${this.props.currentPath}${folderTitle}/`;
+	contextMenu(folder) {
+		this.clickedPath = folder;
 		this.menu.popup(remote.getCurrentWindow());
 	}
 
@@ -54,7 +54,7 @@ class FileExplorerTree extends Component {
 		return _.map(this.props.treeData, folder => {
 			return <a className="collection-item avatar root-item"
 								onContextMenu={() => {
-									this.contextMenu(folder.title)
+									this.contextMenu(folder)
 								}}
 								onClick={() => {this.updateCurrentPath(folder)}}
 								key={folder.title}>

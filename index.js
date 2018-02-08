@@ -43,7 +43,8 @@ ipcMain.on('LEVEL_DATA_REQUEST', (event, path)=> {
 					return {
 						title: file,
 						isFile: stats.isFile(),
-						mimeType: stats.isFile() && mime.lookup(file)
+						mimeType: stats.isFile() && mime.lookup(file),
+						path: `${pathWithoutRoot}${file}`
 					}
 				}).catch(function (err) {
 					console.error("Unexpected error", err);
@@ -56,11 +57,14 @@ ipcMain.on('LEVEL_DATA_REQUEST', (event, path)=> {
 });
 
 ipcMain.on('DATA_PASTE_REQUEST', (event, {path, dest, pasteType})=> {
-	const pathWithoutRoot = path.substr(root.length);
+	console.log(path, dest, pasteType);
 	const destWithoutRoot = dest.substr(root.length);
-	console.log(pathWithoutRoot, destWithoutRoot, pasteType);
-	fs.copy(pathWithoutRoot, destWithoutRoot, (err)=> {
-		if (err) return console.error(err);
+	console.log(path, `${destWithoutRoot}${path.title}`);
+	fs[pasteType](path.path, `${destWithoutRoot}${path.title}`, (err)=> {
+		if (err) {
+			mainWindow.webContents.send('PASTE_REQUEST_DONE');
+			return console.error(err);
+		}
 		console.log('success!');
 		mainWindow.webContents.send('PASTE_REQUEST_DONE');
 	});

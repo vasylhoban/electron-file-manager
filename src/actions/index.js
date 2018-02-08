@@ -41,7 +41,11 @@ export const moveRequest = path => dispatch => {
 };
 
 export const pasteRequest = (path, dest, pasteType) => dispatch => {
-	ipcRenderer.send('DATA_PASTE_REQUEST', {path, dest, pasteType});
+	ipcRenderer.send('DATA_PASTE_REQUEST', {
+		path,
+		dest,
+		pasteType
+	});
 	dispatch({
 		type: PASTE_REQUEST,
 		path,

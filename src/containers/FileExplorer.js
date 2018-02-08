@@ -34,6 +34,7 @@ class FileExplorer extends Component {
 
 	clickPasteButtonHandler() {
 		const { toCopy, toMove } = this.props.copyMovePaths;
+		console.log(this.props.levelData);
 		this.props.pasteRequest(toCopy || toMove, this.state.currentPath,  toCopy ? 'copy' : 'move');
 	}
 
